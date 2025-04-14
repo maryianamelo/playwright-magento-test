@@ -13,7 +13,8 @@ test.describe('Magento Site Basic Tests', () => {
     await page.locator('#search').press('Enter');
     await expect(page).toHaveURL(/.*q=shirt.*/);
     const results = page.locator('.product-item');
-    await expect(results).toHaveCountGreaterThan(0);
+    const count = await results.count();
+    expect(count).toBeGreaterThan(0);
   });
 
   test('Add first product to cart', async ({ page }) => {
@@ -64,7 +65,8 @@ test.describe('Magento Site Basic Tests', () => {
     await page.waitForLoadState('networkidle');
 
     const products = page.locator('.product-item');
-    await expect(products).toHaveCountGreaterThan(0);
+    const productCount = await products.count();
+    expect(productCount).toBeGreaterThan(0);
   });
 
   test('Newsletter subscription with invalid email shows error', async ({ page }) => {
