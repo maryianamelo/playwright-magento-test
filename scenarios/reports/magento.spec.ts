@@ -2,12 +2,12 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Magento Site Basic Tests', () => {
 
-  test('Homepage loads and title is correct', { tag: ['@Olimpo', '@Reports'] } , async ({ page }) => {
+  test('RP-1 Homepage loads and title is correct', { tag: ['@Olimpo', '@Reports'] } , async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveTitle(/Home Page/);
   });
 
-  test('Search for product "shirt"', { tag: ['@Apollo', '@Payroll'] } , async ({ page }) => {
+  test('RP-2 Search for product "shirt"', { tag: ['@Apollo', '@Payroll'] } , async ({ page }) => {
     await page.goto('/');
     await page.locator('#search').fill('shirt');
     await page.locator('#search').press('Enter');
@@ -17,7 +17,7 @@ test.describe('Magento Site Basic Tests', () => {
     expect(count).toBeGreaterThan(0);
   });
 
-  test('Add first product to cart', { tag: ['@Olimpo', '@Reports'] } , async ({ page }) => {
+  test('RP-3 Add first product to cart', { tag: ['@Olimpo', '@Reports'] } , async ({ page }) => {
     await page.goto('/');
     await page.locator('#search').fill('shirt');
     await page.locator('#search').press('Enter');
@@ -37,7 +37,7 @@ test.describe('Magento Site Basic Tests', () => {
     await expect(cartCount).not.toHaveText('0');
   });
 
-  test('Navigate to Men > Tops > Jackets category', { tag: ['@Olimpo', '@Reports'] } ,async ({ page }) => {
+  test('RP-4 Navigate to Men > Tops > Jackets category', { tag: ['@Olimpo', '@Reports'] } ,async ({ page }) => {
     await page.goto('/');
     await page.hover('a:has-text("Men")');
     await page.hover('a:has-text("Tops")');
@@ -47,7 +47,7 @@ test.describe('Magento Site Basic Tests', () => {
     await expect(heading).toHaveText('Jackets');
   });
 
-  test('Product detail page contains name, price, and Add to Cart button', { tag: ['@Olimpo', '@Reports'] } , async ({ page }) => {
+  test('RP-5 Product detail page contains name, price, and Add to Cart button', { tag: ['@Olimpo', '@Reports'] } , async ({ page }) => {
     await page.goto('/');
     await page.locator('#search').fill('jacket');
     await page.locator('#search').press('Enter');
@@ -58,7 +58,7 @@ test.describe('Magento Site Basic Tests', () => {
     await expect(page.getByRole('button', { name: /Add to Cart/i })).toBeVisible();
   });
 
-  test('Filter Jackets category by size "M"', { tag: ['@Apollo', '@Payroll'] } , async ({ page }) => {
+  test('RP-6 Filter Jackets category by size "M"', { tag: ['@Apollo', '@Payroll'] } , async ({ page }) => {
     await page.goto('https://magento.softwaretestingboard.com/men/tops-men/jackets.html');
     await page.locator('div.filter-options-title', { hasText: 'Size' }).click();
     await page.check('input[name="size"] + span:has-text("M")');
@@ -69,14 +69,14 @@ test.describe('Magento Site Basic Tests', () => {
     expect(productCount).toBeGreaterThan(0);
   });
 
-  test('Newsletter subscription with invalid email shows error', { tag: ['@Olimpo', '@Reports'] } , async ({ page }) => {
+  test('RP-7 Newsletter subscription with invalid email shows error', { tag: ['@Olimpo', '@Reports'] } , async ({ page }) => {
     await page.goto('/');
     await page.locator('#newsletter').fill('not-an-email');
     await page.locator('button[title="Subscribe"]').click();
     await expect(page.locator('.mage-error')).toHaveText(/Please enter a valid email address/);
   });
 
-  test('Footer contains Privacy and Cookie Policy link', { tag: ['@Apollo', '@Payroll'] } ,  async ({ page }) => {
+  test('RP-8 Footer contains Privacy and Cookie Policy link', { tag: ['@Apollo', '@Payroll'] } ,  async ({ page }) => {
     await page.goto('/');
     const link = page.locator('footer a', { hasText: 'Privacy and Cookie Policy' });
     await expect(link).toHaveAttribute('href', /privacy-policy/);
